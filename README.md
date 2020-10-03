@@ -1,0 +1,1 @@
+GraphQL API from Andrew's graphQL course, uses Prisma, Heroku, Docker(locally to host prisma service), Prisma Cloud and Postgress
