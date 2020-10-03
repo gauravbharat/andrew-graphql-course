@@ -1,0 +1,22 @@
+{
+  "name": "graphql-basics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js ",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js --ext js,graphql --exec",
+    "get-schema": "graphql-codegen --config ./codegen.yml"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "env-cmd": "^10.1.0",
+    "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
+    "prisma-binding": "^2.3.16"
+  },
+  "devDependencies": {
+    "@graphql-cli/codegen": "^1.17.8",
+    "@graphql-codegen/schema-ast": "^1.17.8"
+  }
+}

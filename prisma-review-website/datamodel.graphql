@@ -1,0 +1,54 @@
+type User {
+  id: ID! @id
+  username: String!
+  campgrounds: [Campground!]!
+  @relation(name: "CampgroundToUser", onDelete: CASCADE)
+  reviews: [Review!]! @relation(name: "ReviewToUser", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Campground {
+  id: ID! @id
+  name: String!
+  price: String @default(value: "0.00")
+  image: String!
+  location: String!
+  latitude: Float
+  longitude: Float
+  description: String!
+  author: User! @relation(name: "CampgroundToUser", onDelete: SET_NULL)
+  reviews: [Review!]! @relation(name: "ReviewToCampground", onDelete: CASCADE)
+  bestSeasons: [BestSeason!]! @scalarList(strategy: RELATION)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Review {
+  id: ID! @id
+  text: String
+  Rating: Int!
+  author: User! @relation(name: "ReviewToUser", onDelete: SET_NULL)
+  campground: Campground!
+  @relation(name: "ReviewToCampground", onDelete: SET_NULL)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+enum BestSeason {
+  VASANTA
+  GRISHMA
+  VARSHA
+  SHARAT
+  HEMANT
+  SHISHIRA
+}
+
+# interface BestSeason {
+#   vasanta: Boolean!
+#   grishma: Boolean!
+#   varsha: Boolean!
+#   sharat: Boolean!
+#   hemant: Boolean!
+#   shishira: Boolean!
+# }

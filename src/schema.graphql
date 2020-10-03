@@ -1,0 +1,170 @@
+# Import enums from prisma data model
+# import UserOrderByInput, PostOrderByInput, CommentOrderByInput from './generated/prisma.graphql'
+
+# Type definitions (application schema / custom data-types)
+type Query {
+  comments(
+    query: String
+    pagination: PaginationParams
+    orderBy: CommentOrderByInput
+  ): [Comment!]!
+  users(
+    query: String
+    pagination: PaginationParams
+    orderBy: UserOrderByInput
+  ): [User!]!
+  posts(
+    query: String
+    pagination: PaginationParams
+    orderBy: PostOrderByInput
+  ): [Post!]!
+  myPosts(
+    query: String
+    pagination: PaginationParams
+    orderBy: PostOrderByInput
+  ): [Post!]!
+  me: User!
+  post(id: ID!): Post!
+}
+
+input PaginationParams {
+  first: Int
+  skip: Int
+  after: String
+}
+
+type Mutation {
+  createUser(data: CreateUserInput!): AuthPayload!
+  login(data: LoginUserInput!): AuthPayload!
+  updateUser(data: UpdateUserInput!): User!
+  deleteUser: User!
+  createPost(data: CreatePostInput!): Post!
+  updatePost(id: ID!, data: UpdatePostInput!): Post!
+  deletePost(id: ID!): Post!
+  createComment(data: CreateCommentInput!): Comment!
+  updateComment(id: ID!, data: UpdateCommentInput!): Comment!
+  deleteComment(id: ID!): Comment!
+}
+
+type Subscription {
+  comment(postId: ID): CommentSubscriptionPayload!
+  post: PostSubscriptionPayload!
+  user: UserSubscriptionPayload!
+  myPost: PostSubscriptionPayload!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  password: String
+}
+
+input CreatePostInput {
+  title: String!
+  body: String!
+  published: Boolean!
+}
+
+input UpdatePostInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+input CreateCommentInput {
+  text: String!
+  postId: ID!
+}
+
+input UpdateCommentInput {
+  text: String
+}
+
+input ConnectUser {
+  connect: UserWhereUniqueInput
+}
+
+input ConnectPost {
+  connect: PostWhereUniqueInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+input PostWhereUniqueInput {
+  id: ID
+}
+
+type User {
+  id: ID!
+  name: String!
+  password: String!
+  email: String
+  posts: [Post!]!
+  comments: [Comment!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+  comments: [Comment!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  author: User!
+  post: Post!
+  createdAt: String!
+  updatedAt: String!
+}
+
+# Enum -
+# 1. a special type that defines a set of constants
+# 2. this type can then be used as a type for fields (like scalar or object types)
+# 3. values for the field must be one of the constants for the type
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  node: Post
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  node: Comment
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+}
