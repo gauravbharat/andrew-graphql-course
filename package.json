@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/index.js ",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js --ext js,graphql --exec",
+    "test": "jest --watch",
     "get-schema": "graphql-codegen --config ./codegen.yml --dotenv ./config/dev.env"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "@graphql-cli/codegen": "^1.17.8",
-    "@graphql-codegen/schema-ast": "^1.17.8"
+    "@graphql-codegen/schema-ast": "^1.17.8",
+    "jest": "^26.4.2"
   }
 }

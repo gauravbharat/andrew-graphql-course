@@ -1,4 +1,5 @@
 config/
 .env
 node_modules/
+apollo-client/
 prisma/docker-compose.yml
